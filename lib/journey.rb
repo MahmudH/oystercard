@@ -1,23 +1,26 @@
 class Journey
-  attr_reader :journey_history
+
+  attr_reader :journey
 
   MIN_AMOUNT = 1
   PENALTY = 6
 
   def initialize
-    @journey_history = {}
+    @journey = {}
+    @journey_log = Journey_log.new
   end
 
   def enter station
-    @journey_history["entry_station"] = [station.name, station.zone]
+    @journey["entry_station"] = [station.name, station.zone]
   end
 
   def leave station
-    @journey_history["exit_station"] = [station.name, station.zone]
+    @journey["exit_station"] = [station.name, station.zone]
+    journey_log << @journey
   end
 
   def journey_complete?
-    journey_history.count == 2
+    journey.count == 2
   end
 
   def fare

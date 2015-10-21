@@ -6,13 +6,13 @@ describe Journey do
   let(:exit_station) {double :station1, name: :archway, zone: 3}
 
   it "has an empty list of journeys by default" do
-    expect(subject.journey_history).to be_empty
+    expect(subject.journey).to be_empty
   end
 
   it "should capture a journey on touching in and touching out" do
     subject.enter(entry_station)
     subject.leave(exit_station)
-    expect(subject.journey_history).to include("entry_station" => [entry_station.name, entry_station.zone],
+    expect(subject.journey).to include("entry_station" => [entry_station.name, entry_station.zone],
     "exit_station" => [exit_station.name, exit_station.zone] )
   end
 
