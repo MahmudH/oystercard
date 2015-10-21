@@ -2,8 +2,8 @@ require 'oystercard'
 
 describe Oystercard do
 
-  let(:station) {double :station}
-  let(:station1) {double :station1}
+  let(:entry_station) {double :station, name: :bethnal_green, zone: 2}
+  let(:exit_station) {double :exit_station, name: :archway, zone: 3}
 
   it "should start with a balance of zero" do
     expect(subject.balance).to eq 0
@@ -25,44 +25,34 @@ describe Oystercard do
 
   it "should be in use if touched in" do
     subject.top_up(5)
-    subject.touch_in(station)
+    subject.touch_in(entry_station)
     expect(subject).to be_in_journey
   end
 
   it "should not be in use if touched out" do
-    subject.touch_out(station)
+    subject.touch_out(exit_station)
     expect(subject).not_to be_in_journey
   end
 
   it "should not allow to touch in when balance less than 1" do
-    expect { subject.touch_in(station) }.to raise_error ("You need to top up")
+    expect { subject.touch_in(entry_station) }.to raise_error ("You need to top up")
   end
-
 
   it "should change balance on touch out" do
     subject.top_up(10)
-    subject.touch_in(station)
-    expect { subject.touch_out(station) }.to change { subject.balance }.by(-Oystercard::MIN_AMOUNT)
+    subject.touch_in(entry_station)
+    expect { subject.touch_out(exit_station) }.to change { subject.balance }.by(-Oystercard::MIN_AMOUNT)
   end
-
-  it "has an empty list of journeys by default" do
-    expect(subject.journey_history).to be {}
-  end
-
-  it "should capture a journey on touching in and touching out" do
-    subject.top_up(10)
-    subject.touch_in(station)
-    subject.touch_out(station1)
-    expect(subject.journey_history).to include("entry_station" => station, "exit_station" => station1 )
-  end
-
-
 
   describe '#touch_in' do
     it 'should return station' do
       subject.top_up(10)
-      expect(subject.touch_in(station)).to eq station
+      expect(subject.touch_in(entry_station)).to eq [entry_station.name, entry_station.zone]
     end
+  end
+
+  it 'penalty charge deducted from card if journey incomplete' do
+    expect { subject.touch_out(exit_station) }.to change { subject.balance }.by(-Oystercard::PENALTY)
   end
 
 end
