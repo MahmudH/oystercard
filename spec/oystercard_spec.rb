@@ -3,7 +3,7 @@ require 'oystercard'
 describe Oystercard do
 
   let(:entry_station) {double :station, name: :bethnal_green, zone: 2}
-  let(:exit_station) {double :exit_station, name: :archway, zone: 3}
+  let(:exit_station) {double :station, name: :archway, zone: 3}
 
   it "should start with a balance of zero" do
     expect(subject.balance).to eq 0
