@@ -12,8 +12,7 @@ describe Journey do
   it "should capture a journey on touching in and touching out" do
     subject.enter(entry_station)
     subject.leave(exit_station)
-    expect(subject.journey).to include(:entry_station => [entry_station.name, entry_station.zone],
-    :exit_station => [exit_station.name, exit_station.zone] )
+    expect(subject.journey).to include({:entry_station => entry_station, :exit_station => exit_station})
   end
 
   it "returns a penalty fare if no exit station given" do

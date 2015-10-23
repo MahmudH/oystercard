@@ -32,7 +32,7 @@ describe Oystercard do
   describe '#touch_in' do
     it 'should return station' do
       subject.top_up(10)
-      expect(subject.touch_in(entry_station)).to eq [entry_station.name, entry_station.zone]
+      expect(subject.touch_in(entry_station)).to eq entry_station
     end
   end
 

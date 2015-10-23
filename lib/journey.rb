@@ -1,29 +1,30 @@
 class Journey
 
-  attr_reader :journey, :journey_log
+  attr_reader :journey, :entry_station, :exit_station
 
   MIN_AMOUNT = 1
   PENALTY = 6
 
   def initialize
-    @journey = {}
+    @entry_station = nil
+    @exit_station = nil
   end
 
   def enter station
-    @journey[:entry_station] = [station.name, station.zone]
-    # @journey_log = Journey_log.new
+    @entry_station = station
   end
 
   def leave station
-    @journey[:exit_station] = [station.name, station.zone]
-    #@journey_log << @journey
+    @exit_station = station
+    add_journey
   end
 
   def journey_complete?
-    (journey[:entry_station].nil? && journey[:exit_station].nil?) || (!!journey[:entry_station] && !!journey[:exit_station])
+    (entry_station.nil? && exit_station.nil?) || (!!entry_station && !!exit_station)
   end
 
   def fare
     journey_complete? ? MIN_AMOUNT : PENALTY
   end
+  
 end
