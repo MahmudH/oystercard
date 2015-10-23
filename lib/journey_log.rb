@@ -1,6 +1,6 @@
 require_relative 'journey'
 
-class Journey_log
+class JourneyLog
 
   attr_reader :jr
 
@@ -17,7 +17,19 @@ class Journey_log
 
   def exit_journey(station)
     @jr.leave(station)
-    add_journey
+    add_journey if complete?
+  end
+
+  def outstanding_charges
+    amount = jr.fare
+    if jr.journey_complete? == false
+      add_journey
+    end
+    amount
+  end
+
+  def complete?
+    @jr.journey_complete?
   end
 
   private
@@ -28,5 +40,6 @@ class Journey_log
 
   def add_journey
     @journeys << @jr
+    @jr = @journey_klass.new
   end
 end

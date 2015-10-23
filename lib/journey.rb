@@ -16,7 +16,6 @@ class Journey
 
   def leave station
     @exit_station = station
-    add_journey
   end
 
   def journey_complete?
@@ -26,5 +25,5 @@ class Journey
   def fare
     journey_complete? ? MIN_AMOUNT : PENALTY
   end
-  
+
 end
