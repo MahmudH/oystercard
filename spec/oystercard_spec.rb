@@ -19,21 +19,6 @@ describe Oystercard do
     expect {subject.top_up(Oystercard::MAX_AMOUNT)}.to raise_error ("Balance exceeds #{Oystercard::MAX_AMOUNT}")
   end
 
-  it "should not be in use" do
-    expect(subject.in_journey?).to be_falsey
-  end
-
-  it "should be in use if touched in" do
-    subject.top_up(5)
-    subject.touch_in(entry_station)
-    expect(subject).to be_in_journey
-  end
-
-  it "should not be in use if touched out" do
-    subject.touch_out(exit_station)
-    expect(subject).not_to be_in_journey
-  end
-
   it "should not allow to touch in when balance less than 1" do
     expect { subject.touch_in(entry_station) }.to raise_error ("You need to top up")
   end

@@ -6,10 +6,10 @@ class Oystercard
   MAX_AMOUNT = 90
   MIN_AMOUNT = 1
   PENALTY = 6
-  attr_reader :balance, :in_use, :journey
+  attr_reader :balance, :journey
 
   def initialize(balance=0)
-    @balance = balance + 1
+    @balance = balance
     @journey = Journey.new
   end
 
@@ -18,25 +18,20 @@ class Oystercard
     @balance+= value
   end
 
-  def in_journey?
-    in_use
-  end
-
   def touch_in(station)
     raise "You need to top up" unless balance >= MIN_AMOUNT
-    @in_use = true
+    deduct unless journey.journey_complete?
     journey.enter(station)
   end
 
   def touch_out(station)
     @journey.leave(station)
-    deduct(journey.fare)
-    @in_use = false
+    deduct
   end
 
   private
-  def deduct(value)
-    @balance -= value
+  def deduct
+    @balance -= journey.fare
   end
 
 end
