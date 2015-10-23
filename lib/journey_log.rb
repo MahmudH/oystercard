@@ -2,7 +2,7 @@ require_relative 'journey'
 
 class Journey_log
 
-  def initialize(journey_klass)
+  def initialize(journey_klass= Journey)
     @journey_klass = journey_klass
     @journeys = []
   end
@@ -15,6 +15,4 @@ class Journey_log
     @journey_klass.leave(station)
     journeys << @journey_klass.journey
   end
-
-#  journies << @journey_klass.journey
 end

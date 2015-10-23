@@ -9,7 +9,7 @@ class Oystercard
   attr_reader :balance, :in_use, :journey
 
   def initialize(balance=0)
-    @balance = balance
+    @balance = balance + 1
     @journey = Journey.new
   end
 
@@ -25,7 +25,7 @@ class Oystercard
   def touch_in(station)
     raise "You need to top up" unless balance >= MIN_AMOUNT
     @in_use = true
-    @journey.enter(station)
+    journey.enter(station)
   end
 
   def touch_out(station)
